@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>근거 자료를 찾아봅시다</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; background: #f5f7fa; color: #2d2d2d; min-height: 100vh; }
+  header { background: #2c6e49; color: white; padding: 28px 32px 20px; }
+  header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  header p { font-size: 13px; opacity: 0.85; line-height: 1.6; }
+  .notice { background: #fff8e1; border-left: 4px solid #f9a825; margin: 20px 24px; padding: 14px 16px; border-radius: 6px; font-size: 13px; line-height: 1.7; color: #5a4000; }
+  .notice strong { color: #e65100; }
+  .tabs { display: flex; padding: 0 24px; border-bottom: 2px solid #dce3ec; margin-top: 8px; }
+  .tab-btn { padding: 10px 20px; font-size: 14px; font-weight: 600; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; color: #888; transition: all 0.2s; margin-bottom: -2px; }
+  .tab-btn.active { color: #2c6e49; border-bottom-color: #2c6e49; }
+  .tab-btn:hover { color: #2c6e49; }
+  .tab-content { display: none; padding: 20px 24px 40px; }
+  .tab-content.active { display: block; }
+  .video-card { background: white; border-radius: 10px; overflow: hidden; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); display: flex; cursor: pointer; transition: box-shadow 0.2s; }
+  .video-card:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+  .video-thumb { width: 160px; min-width: 160px; background: #111; position: relative; overflow: hidden; }
+  .video-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .video-thumb .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: rgba(0,0,0,0.7); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; }
+  .video-info { padding: 14px 16px; flex: 1; }
+  .video-info h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; line-height: 1.5; }
+  .video-info .summary { font-size: 12px; color: #555; line-height: 1.7; margin-bottom: 8px; }
+  .video-info .key-fact { background: #f0f4f8; border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #1a3a2a; line-height: 1.6; margin-bottom: 8px; }
+  .video-info .key-fact strong { color: #2c6e49; }
+  .citation { font-size: 11px; color: #999; line-height: 1.5; margin-bottom: 8px; }
+  .citation span { color: #2c6e49; font-weight: 600; }
+  .link-btn { display: inline-block; padding: 6px 12px; background: #2c6e49; color: white; border-radius: 6px; font-size: 11px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+  .link-btn:hover { background: #1b4d33; }
+  .card { background: white; border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+  .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.5; }
+  .card .summary { font-size: 13px; color: #555; line-height: 1.7; margin-bottom: 12px; }
+  .card .key-fact { background: #f0f4f8; border-radius: 6px; padding: 10px 14px; font-size: 13px; color: #1a3a2a; line-height: 1.6; margin-bottom: 12px; }
+  .card .key-fact strong { color: #2c6e49; }
+  .card .citation { font-size: 11px; color: #999; margin-bottom: 10px; line-height: 1.5; }
+  .card .citation span { color: #2c6e49; font-weight: 600; }
+  .video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; }
+  .video-modal.active { display: flex; }
+  .modal-inner { width: 90%; max-width: 640px; position: relative; }
+  .modal-inner .close-btn { position: absolute; top: -36px; right: 0; color: white; font-size: 24px; cursor: pointer; background: none; border: none; }
+  .modal-inner .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 8px; overflow: hidden; }
+  .modal-inner .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🔍 근거 자료를 찾아봅시다</h1>
+  <p>자료를 찾기 전에 먼저 모둠끼리 이유를 생각해보세요!</p>
+</header>
+
+<div class="notice">
+  <strong>📌 사용 방법</strong><br>
+  ① 먼저 모둠끼리 <strong>자료 없이</strong> 이유 3가지를 생각해보세요.<br>
+  ② 이유를 정했으면 아래 자료에서 <strong>근거가 될 만한 것</strong>을 찾아보세요.<br>
+  ③ 찾는 자료가 없다면 <strong>어떤 자료를 찾으면 좋을지</strong> 생각해보세요.
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('video', event)">📹 영상</button>
+  <button class="tab-btn" onclick="showTab('official', event)">🏛️ 공공기관·공식자료</button>
+  <button class="tab-btn" onclick="showTab('news', event)">📰 뉴스·기사</button>
+</div>
+
+<!-- 영상 탭 -->
+<div id="video" class="tab-content active">
+
+  <div class="video-card" onclick="openModal('https://www.youtube.com/embed/00n2jwaLvkQ')">
+    <div class="video-thumb">
+      <img src="https://img.youtube.com/vi/00n2jwaLvkQ/mqdefault.jpg" alt="썸네일">
+      <div class="play-btn">▶</div>
+    </div>
+    <div class="video-info">
+      <h3>급식 잔반 증가, 대책이 시급하다</h3>
+      <p class="summary">학생 수는 줄고 있는데 급식 잔반은 오히려 늘고 있어요. 잔반 처리 비용도 계속 올라가고 있어요.</p>
+      <div class="key-fact">
+        학령인구가 줄었는데도 잔반이 늘어나고, 처리 단가도 높아지고 있어요.
+      </div>
+      <div class="citation">출처: <span>TBC뉴스</span> · 2023년 8월 24일</div>
+      <span class="link-btn">▶ 영상 보기</span>
+    </div>
+  </div>
+
+  <div class="video-card" onclick="openModal('https://www.youtube.com/embed/P1Iv9sdY3vA')">
+    <div class="video-thumb">
+      <img src="https://img.youtube.com/vi/P1Iv9sdY3vA/mqdefault.jpg" alt="썸네일">
+      <div class="play-btn">▶</div>
+    </div>
+    <div class="video-info">
+      <h3>식량 위기에 처한 어린이들... "기아 인구 8억 명 달해"</h3>
+      <p class="summary">전 세계에서 굶주리는 사람이 8억 명을 넘었어요. 특히 어린이들이 가장 큰 피해를 받고 있어요.</p>
+      <div class="key-fact">
+        전 세계 기아 인구가 <strong>8억 명</strong>을 넘었고, 어린이들이 가장 취약해요.
+      </div>
+      <div class="citation">출처: <span>GOODTV뉴스</span> · 2023년 2월 9일</div>
+      <span class="link-btn">▶ 영상 보기</span>
+    </div>
+  </div>
+
+  <div class="video-card" onclick="openModal('https://www.youtube.com/embed/xNJbbmZApjc')">
+    <div class="video-thumb">
+      <img src="https://img.youtube.com/vi/xNJbbmZApjc/mqdefault.jpg" alt="썸네일">
+      <div class="play-btn">▶</div>
+    </div>
+    <div class="video-info">
+      <h3>음식물 쓰레기가 환경에 이 정도로 영향을...?</h3>
+      <p class="summary">음식물 쓰레기가 환경에 얼마나 큰 영향을 주는지 짧게 보여주는 영상이에요.</p>
+      <div class="key-fact">
+        음식물이 썩을 때 <strong>메탄가스</strong>가 나오는데, 이 가스는 이산화탄소보다 온실 효과가 <strong>80배</strong>나 강해요. 음식물 쓰레기가 늘어날수록 지구 온도가 더 빠르게 올라가요.
+      </div>
+      <div class="citation">출처: <span>KBS부산</span> · 2024년</div>
+      <span class="link-btn">▶ 영상 보기</span>
+    </div>
+  </div>
+
+  <div class="video-card" onclick="openModal('https://www.youtube.com/embed/XVY7fox3xp0')">
+    <div class="video-thumb">
+      <img src="https://img.youtube.com/vi/XVY7fox3xp0/mqdefault.jpg" alt="썸네일">
+      <div class="play-btn">▶</div>
+    </div>
+    <div class="video-info">
+      <h3>스마트폰·인터넷에 빠진 청소년 21만 명</h3>
+      <p class="summary">스마트폰과 인터넷 과의존 청소년이 늘고 있다는 뉴스예요. 특히 중학생이 가장 심각하다고 해요.</p>
+      <div class="key-fact">
+        스마트폰 과의존 청소년이 <strong>21만 명</strong>에 달하며 중학생이 가장 많아요.
+      </div>
+      <div class="citation">출처: <span>KBS뉴스</span> · 2025년 6월 18일</div>
+      <span class="link-btn">▶ 영상 보기</span>
+    </div>
+  </div>
+
+  <div class="video-card" onclick="openModal('https://www.youtube.com/embed/TYUtMw7XqPs')">
+    <div class="video-thumb">
+      <img src="https://img.youtube.com/vi/TYUtMw7XqPs/mqdefault.jpg" alt="썸네일">
+      <div class="play-btn">▶</div>
+    </div>
+    <div class="video-info">
+      <h3>'쇼츠·릴스'에 빼앗긴 문해력... "교과서 읽어도 이해 못 해"</h3>
+      <p class="summary">짧은 영상을 많이 보는 청소년들이 긴 글을 읽고 이해하는 능력이 떨어지고 있다는 내용이에요.</p>
+      <div class="key-fact">
+        쇼츠·릴스 과다 시청으로 청소년 문해력이 눈에 띄게 낮아지고 있어요.
+      </div>
+      <div class="citation">출처: <span>MBC뉴스데스크</span> · 2026년 3월 18일</div>
+      <span class="link-btn">▶ 영상 보기</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- 공공기관 탭 -->
+<div id="official" class="tab-content">
+
+  <div class="card">
+    <h3>우리나라 음식물 쓰레기, 하루에 얼마나 될까?</h3>
+    <p class="summary">우리나라에서 하루에 버려지는 음식물 쓰레기 양을 알 수 있어요.</p>
+    <div class="key-fact">
+      하루 발생량 <strong>14,885톤</strong>으로 생활폐기물의 <strong>23.9%</strong>를 차지해요. (2021년 기준)<br>
+      연간 온실가스 배출량은 <strong>885만 톤</strong>에 달해요.
+    </div>
+    <div class="citation">출처: <span>서울특별시교육청 보건안전진흥원</span> · 2025년</div>
+    <a href="https://bogun.sen.go.kr/fus/MI000000000000000547/html/cont0010v.do" target="_blank" class="link-btn">자료 보기</a>
+  </div>
+
+  <div class="card">
+    <h3>음식물 쓰레기를 줄이면 온실가스도 줄어요</h3>
+    <p class="summary">음식물 쓰레기와 환경오염의 관계를 수치로 보여주는 자료예요.</p>
+    <div class="key-fact">
+      음식물 쓰레기를 <strong>20%만 줄여도</strong> 온실가스 <strong>177만 톤</strong>이 감소해요.<br>
+      소나무 <strong>3억 6천만 그루</strong>를 심는 것과 같은 효과예요.
+    </div>
+    <div class="citation">출처: <span>그린피스 코리아</span></div>
+    <a href="https://www.greenpeace.org/korea/update/24144/blog-ce-food-waste/" target="_blank" class="link-btn">자료 보기</a>
+  </div>
+
+  <div class="card">
+    <h3>연도별 음식물 쓰레기 배출량 변화</h3>
+    <p class="summary">통계청에서 만든 음식물 쓰레기 배출량 그래프예요. 연도별로 얼마나 변했는지 볼 수 있어요.</p>
+    <div class="key-fact">
+      우리나라 음식물 쓰레기는 생활쓰레기 전체의 약 <strong>29%</strong>를 차지해요.<br>
+      전체 음식물 쓰레기의 약 <strong>70%</strong>는 가정과 소형 음식점에서 발생해요.<br>
+      집단 급식소(학교 급식 등)에서도 약 <strong>10%</strong>가 발생하고 있어요.
+    </div>
+    <div class="citation">출처: <span>통계청(KOSIS)</span> · 환경부 전국폐기물발생및처리현황</div>
+    <a href="https://kosis.kr/edu/visualStats/detail.do?menuId=M_05&ixId=714" target="_blank" class="link-btn">자료 보기</a>
+  </div>
+
+  <div class="card">
+    <h3>전 세계 굶주리는 어린이 현황</h3>
+    <p class="summary">세계 기아와 어린이 영양실조 문제에 대한 국제구조위원회의 자료예요.</p>
+    <div class="key-fact">
+      전 세계 약 <strong>4,500만 명</strong>의 5세 미만 어린이가 급성 영양실조를 경험하고,<br>
+      매년 <strong>200만 명</strong>의 어린이가 영양실조로 사망해요.
+    </div>
+    <div class="citation">출처: <span>국제구조위원회(IRC)</span> · 2024년</div>
+    <a href="https://www.rescue.org/kr/article/7-facts-about-world-hunger-2024" target="_blank" class="link-btn">자료 보기</a>
+  </div>
+
+  <div class="card">
+    <h3>음식물 쓰레기 재활용률은 98%</h3>
+    <p class="summary">우리나라 음식물 쓰레기 재활용 현황에 대한 자료예요.</p>
+    <div class="key-fact">
+      분리배출된 음식물 쓰레기의 재활용률은 <strong>98%</strong>예요.<br>
+      사료나 퇴비로 재활용되지만 재활용 과정에서도 온실가스가 발생해요.
+    </div>
+    <div class="citation">출처: <span>경기일보</span> · 2024년</div>
+    <a href="https://www.kyeonggi.com/article/20240910580011" target="_blank" class="link-btn">자료 보기</a>
+  </div>
+
+</div>
+
+<!-- 뉴스 탭 -->
+<div id="news" class="tab-content">
+
+  <div class="card">
+    <h3>버려지는 급식… 학생 줄었는데 잔반은 늘어</h3>
+    <p class="summary">배달 음식에 익숙해진 학생들이 급식을 남기는 경우가 늘어나고 있다는 기사예요.</p>
+    <div class="key-fact">
+      서울시 초·중·고 1인당 연간 평균 잔반량이 <strong>34kg → 38kg</strong>으로 12% 가까이 늘었어요.<br>
+      급식 인원은 <strong>99만 8천 명 → 90만 명</strong>으로 줄었는데, 음식 쓰레기는 오히려 늘었어요.
+    </div>
+    <div class="citation">출처: <span>조선일보</span> · 윤상진 기자 · 2023년 7월 18일</div>
+    <a href="https://www.chosun.com/national/education/2023/07/18/Y6R6SXJWBRDZ3LY24ZNCZDFTKA/" target="_blank" class="link-btn">기사 보기</a>
+  </div>
+
+  <div class="card">
+    <h3>서울 학교 급식 잔반 처리에 3년간 146억 원</h3>
+    <p class="summary">서울 학교에서 버려지는 급식 잔반을 처리하는 데 엄청난 돈이 쓰이고 있다는 기사예요.</p>
+    <div class="key-fact">
+      2020년 <strong>28억 원</strong> → 2022년 <strong>68억 원</strong>으로 매년 약 2배씩 증가했어요.<br>
+      3년간 총 <strong>146억 원</strong>이 잔반 처리에 사용됐어요.
+    </div>
+    <div class="citation">출처: <span>대한급식신문</span> · 안유신 기자 · 2023년 11월 21일</div>
+    <a href="https://www.fsnews.co.kr/news/articleView.html?idxno=50715" target="_blank" class="link-btn">기사 보기</a>
+  </div>
+
+  <div class="card">
+    <h3>전 세계 굶주리는 사람 7억 8천만 명, 매일 10억 끼 버려져</h3>
+    <p class="summary">세계에서 굶주리는 사람 수와 버려지는 음식의 양을 비교한 기사예요.</p>
+    <div class="key-fact">
+      전 세계 <strong>7억 8,300만 명</strong>이 굶주리는 상황에서 매일 <strong>10억 끼</strong> 분량의 음식이 버려지고 있어요.<br>
+      전 세계 온실가스 배출량의 <strong>8~10%</strong>가 음식물 낭비로 발생해요.<br>
+      한국 1인당 음식물 쓰레기 배출량은 <strong>95kg</strong>으로 세계 평균(79kg)보다 많아요.
+    </div>
+    <div class="citation">출처: <span>중앙일보</span> · 현예슬 기자 · 유엔환경계획(UNEP) 보고서 인용 · 2024년</div>
+    <a href="https://www.joongang.co.kr/article/25238456" target="_blank" class="link-btn">기사 보기</a>
+  </div>
+
+  <div class="card">
+    <h3>AI로 학교 급식 잔반 최대 55%까지 줄인다</h3>
+    <p class="summary">인공지능 기술을 이용해서 급식 잔반을 줄이려는 서울시의 계획을 담은 기사예요.</p>
+    <div class="key-fact">
+      AI가 식사 전후 그릇을 스캔해서 잔반량을 자동으로 계산하는 기술을 도입해요.<br>
+      학교 급식의 경우 최대 <strong>55%까지</strong> 잔반을 줄일 수 있을 것으로 기대돼요.
+    </div>
+    <div class="citation">출처: <span>서울신문</span> · 2022년 2월 3일</div>
+    <a href="https://go.seoul.co.kr/news/newsView.php?id=20220203011028" target="_blank" class="link-btn">기사 보기</a>
+  </div>
+
+</div>
+
+<!-- 영상 모달 -->
+<div class="video-modal" id="videoModal" onclick="closeModal(event)">
+  <div class="modal-inner">
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <div class="video-wrap">
+      <iframe id="modalIframe" src="" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(tabId, event) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  if (event) event.target.classList.add('active');
+}
+function openModal(url) {
+  document.getElementById('modalIframe').src = url + '?autoplay=1';
+  document.getElementById('videoModal').classList.add('active');
+}
+function closeModal(event) {
+  if (!event || event.target === document.getElementById('videoModal') || event.target.classList.contains('close-btn')) {
+    document.getElementById('modalIframe').src = '';
+    document.getElementById('videoModal').classList.remove('active');
+  }
+}
+</script>
+</body>
+</html>
